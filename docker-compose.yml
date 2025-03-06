@@ -1,4 +1,3 @@
-version: '3'
 services:
   qsl-pdf-generator:
     build: ./
@@ -6,8 +5,15 @@ services:
     tty: true
     working_dir: /work
     command: >
-      /bin/bash -c "poetry install &&
-      poetry run python qsl_pdf_publisher/app.py &&
+      /bin/bash -c "poetry run python qsl_pdf_publisher/app.py &&
       tail -f /dev/null"
+    volumes:
+      - ./:/work
+
+  test:
+    build: ./
+    container_name: 'qsl-pdf-generator-test'
+    working_dir: /work
+    command: poetry run pytest -v --cov=qsl_pdf_publisher
     volumes:
       - ./:/work

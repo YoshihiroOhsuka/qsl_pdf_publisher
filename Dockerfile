@@ -14,4 +14,9 @@ RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install poetry
 
+# プロジェクトの依存関係をインストール
+WORKDIR /work
+COPY pyproject.toml poetry.lock ./
+RUN poetry install --no-root
+
 CMD bash
